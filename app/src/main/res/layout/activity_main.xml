@@ -4,12 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_bright"
     tools:context=".MainActivity">
 
     <ListView
         android:id="@+id/location_list"
-        android:layout_width="410dp"
-        android:layout_height="599dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="131dp" />
+        android:layout_width="411dp"
+        android:layout_height="557dp"
+        android:layout_marginBottom="1dp"
+        android:choiceMode="singleChoice"
+        android:listSelector="@drawable/list_view_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="89dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="90dp"
+        android:layout_marginBottom="88dp"
+        android:fontFamily="@font/luckiest_guy"
+        android:text="@string/main_title"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/location_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/add_location_button"
+        style="@android:style/Widget.Holo.Light.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="11dp"
+        android:text="@string/plus"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/location_list"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="18dp"
+        android:onClick="testButtonClicked"
+        android:text="@string/test"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>

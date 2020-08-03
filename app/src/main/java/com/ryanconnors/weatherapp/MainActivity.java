@@ -30,13 +30,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+        //assigning activity buttons/lists
         locationList = findViewById(R.id.location_list);
         addLocationButton = findViewById(R.id.add_location_button);
 
         SQLiteDatabase locationDatabase = new UserLocationsDBHelper(this).getReadableDatabase();
         final Cursor locationDBCursor = getAllRows(locationDatabase);
 
-        //checks if
+        //If there are no items in the user's location list, nothing happens with the ListView
+        //.moveToFirst() returns false if the cursor is empty
         if (locationDBCursor.moveToFirst()) {
             List<String> locationNames = getLocationNames(locationDBCursor);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -51,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        locationDatabase.close();
+
     }
 
 
-    private void testButtonClicked(View view) {
+    public void testButtonClicked(View view) {
         Intent intent = new Intent(this, ShowWeather.class);
         startActivity(intent);
     }
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         return allRows;
     }
 
+    //returns a List<String> of the location name strings used in the database
     private List<String> getLocationNames(Cursor locationDBCursor) {
         List<String> names = new ArrayList<>();
         while(locationDBCursor.moveToNext()) {

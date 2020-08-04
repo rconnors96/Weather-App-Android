@@ -8,5 +8,6 @@
     <string name="feels_like">Feels Like</string>
     <string name="temperature_default">temp_default</string>
     <string name="feels_like_default">feels_like_default</string>
-    <string name="editable_temp_string">%.2f " \u2109"</string>
+    <string name="editable_temp_string">%.1f " \u2109"</string>
+    <string name="add_location_image_description">An image that is meant to be clicked to add a location</string>
 </resources>

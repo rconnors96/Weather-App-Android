@@ -9,6 +9,11 @@ public class WeatherData {
     private Wind wind;
     private Clouds clouds;
     private int dt;
+    private Sys sys;
+    private int timezone;
+    private int id;
+    private String name;
+    private int cod;
 
     public long[] getCoords() {
         return coords;
@@ -42,7 +47,7 @@ public class WeatherData {
         return dt;
     }
 
-    public System getSys() {
+    public Sys getSys() {
         return sys;
     }
 
@@ -61,12 +66,6 @@ public class WeatherData {
     public int getCod() {
         return cod;
     }
-
-    private System sys;
-    private int timezone;
-    private int id;
-    private String name;
-    private int cod;
 }
 
 class Main {
@@ -87,7 +86,7 @@ class Clouds {
     double all;
 }
 
-class System {
+class Sys {
     double type;
     int id;
     String country;

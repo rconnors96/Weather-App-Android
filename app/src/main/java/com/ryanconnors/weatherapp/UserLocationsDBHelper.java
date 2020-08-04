@@ -10,10 +10,9 @@ public class UserLocationsDBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "UserLocations.db";
 
     private static final String SQL_CREATE_TABLE =
-            "CREATE TABLE " + UserLocationsDBSchema.TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + UserLocationsDBSchema.TABLE_NAME + " (" +
                     "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    UserLocationsDBSchema.LOCATION + " TEXT, " +
-                    UserLocationsDBSchema.LAST_KNOWN_TEMP + " TEXT)";
+                    UserLocationsDBSchema.LOCATION + " TEXT) ";
 
     private static final String SQL_DELETE_TABLE =
             "DROP TABLE IF EXISTS " + UserLocationsDBSchema.TABLE_NAME;
@@ -36,4 +35,5 @@ public class UserLocationsDBHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         onUpgrade(sqLiteDatabase, oldVersion, newVersion);
     }
+
 }

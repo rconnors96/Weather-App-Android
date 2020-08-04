@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView locationList;
     private String selectedLocation;
-    private Button addLocationButton;
+    private ImageView addLocationImage;
 
 
     @Override
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         //assigning activity buttons/lists
         locationList = findViewById(R.id.location_list);
-        addLocationButton = findViewById(R.id.add_location_button);
+        addLocationImage = findViewById(R.id.add_location_image);
 
         SQLiteDatabase locationDatabase = new UserLocationsDBHelper(this).getReadableDatabase();
         final Cursor locationDBCursor = getAllRows(locationDatabase);
@@ -58,8 +59,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void addLocationClicked(View view) {
+        Intent intent = new Intent(this, AddLocation.class);
+        startActivity(intent);
+    }
+
+
     public void testButtonClicked(View view) {
         Intent intent = new Intent(this, ShowWeather.class);
+        intent.putExtra("EXTRA_LOCATION_NAME","Boston");
         startActivity(intent);
     }
 

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/quantum_lightblue300"
+    android:background="#32bea6"
+    android:onClick="addLocationClicked"
     tools:context=".MainActivity">
 
     <ListView
@@ -36,18 +37,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/add_location_button"
-        style="@android:style/Widget.Holo.Light.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="11dp"
-        android:text="@string/plus"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/location_list"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,4 +46,15 @@
         android:text="@string/test"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_title" />
+
+    <ImageView
+        android:id="@+id/add_location_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/add_location_image_description"
+        android:onClick="addLocationClicked"
+        app:layout_constraintBottom_toTopOf="@+id/location_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/add_location_icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>

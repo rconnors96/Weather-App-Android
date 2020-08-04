@@ -32,14 +32,20 @@ public class ShowWeather extends AppCompatActivity {
         res = getResources();
         editableTempString = res.getString(R.string.editable_temp_string);
 
+        String providedLocation = getIntent().getStringExtra("EXTRA_LOCATION_NAME");
 
-        //obtains a JSON in the form of a String (apiResults)
-        new AccessWeatherTask().execute("http://api.openweathermap.org/data/2.5/weather?q=Boston&units=imperial&appid=fe965d9067db07a703d64d8902e536ad");
+        //uses provided location to obtain a JSON in the form of a String (apiResults)
+        new AccessWeatherTask().execute("http://api.openweathermap.org/data/2.5/weather?q="
+                + providedLocation
+                + "&units=imperial&appid=fe965d9067db07a703d64d8902e536ad");
 
     }
 
 
-
+    /**
+     * Utilizes the OpenWeatherMap API to obtain weather details about a given location
+     * It then does the work of processing the received JSON and displaying the data
+     */
     protected class AccessWeatherTask extends AsyncTask<String, Integer, String> {
 
         TextView locationName = findViewById(R.id.location_name_textview);

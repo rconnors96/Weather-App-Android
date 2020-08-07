@@ -17,7 +17,14 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AddLocation extends AppCompatActivity {
 
@@ -25,6 +32,7 @@ public class AddLocation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_location);
+
 
         Places.initialize(this, "AIzaSyBy8YwXIxLnp0SJqkP8lWZSPGJVzX3dYos");
         PlacesClient placesClient = Places.createClient(this);
@@ -43,7 +51,8 @@ public class AddLocation extends AppCompatActivity {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 String locationName = place.getName();
-                addPlaceToDatabase(locationName);
+                writeToCsv(locationName);
+
                 returnToMain();
             }
 
@@ -54,26 +63,59 @@ public class AddLocation extends AppCompatActivity {
         });
     }
 
+
+    public void writeToCsv(String locationName) {
+        String fileName = "UserLocations.txt";
+        File file = new File(this.getFilesDir(), fileName);
+
+
+        try {
+
+            FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
+            //IF THE FILE DOES NOT EXIST, WRITE THIS LOCATION TO IT
+            if (!file.isFile()) {
+
+                //enters the first location name
+                fileWriter.append(locationName);
+                fileWriter.append("\n");
+
+
+            //IF THE FILE DOES EXIST, CHECK IF LOCATION IS ALREADY IN IT, IF ITS NOT, ADD IT
+            } else {
+
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                String row;
+                List<String> entries = new ArrayList<>();
+
+                //read each entry in file
+                while ((row = bufferedReader.readLine()) != null) {
+                    entries.add(row);
+                }
+                bufferedReader.close();
+
+                //if the file doesn't contain locationName, add it.
+                if(!entries.contains(locationName)) {
+                    fileWriter.append(locationName);
+                    fileWriter.append("\n");
+
+                }
+            }
+
+            fileWriter.flush();
+            fileWriter.close();
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+
+    }
+
+
     public void returnToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    public void addPlaceToDatabase(String locationName) {
-        SQLiteDatabase sqLiteDatabase = new UserLocationsDBHelper(this).getWritableDatabase();
-        Cursor checkCursor = sqLiteDatabase.rawQuery("SELECT * FROM " + UserLocationsDBSchema.TABLE_NAME +
-                " WHERE " + UserLocationsDBSchema.LOCATION +
-                " LIKE '%" + locationName + "%';", null);
-
-        if (checkCursor.moveToFirst()) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(UserLocationsDBSchema.LOCATION, locationName);
-
-            sqLiteDatabase.insert(UserLocationsDBSchema.TABLE_NAME,
-                    null,
-                    contentValues);
-        }
-
-        sqLiteDatabase.close();
-    }
 }

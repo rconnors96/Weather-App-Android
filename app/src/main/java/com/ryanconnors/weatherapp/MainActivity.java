@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,16 +14,28 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.snappydb.DB;
+import com.snappydb.DBFactory;
+import com.snappydb.SnappyDB;
+import com.snappydb.SnappydbException;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     //weatherAPI key : fe965d9067db07a703d64d8902e536ad
 
-    private ListView locationList;
     private String selectedLocation;
-    private ImageView addLocationImage;
 
 
     @Override
@@ -32,30 +45,48 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         //assigning activity buttons/lists
-        locationList = findViewById(R.id.location_list);
-        addLocationImage = findViewById(R.id.add_location_image);
+        final ListView locationList = findViewById(R.id.location_list);
+        ImageView addLocationImage = findViewById(R.id.add_location_image);
 
-        SQLiteDatabase locationDatabase = new UserLocationsDBHelper(this).getReadableDatabase();
-        final Cursor locationDBCursor = getAllRows(locationDatabase);
+        //access locations file
+        String fileName = "UserLocations.txt";
+        File file = new File(this.getFilesDir(), fileName);
+        if (file.isFile()) {
+            final List<String> savedLocationNames = readCsv(file);
 
-        //If there are no items in the user's location list, nothing happens with the ListView
-        //.moveToFirst() returns false if the cursor is empty
-        if (locationDBCursor.moveToFirst()) {
-            List<String> locationNames = getLocationNames(locationDBCursor);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_list_item_1, locationNames);
-            locationList.setAdapter(adapter);
-            locationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    selectedLocation = getClickedLocation(position, locationDBCursor);
-                }
-            });
+            if(savedLocationNames.size() != 0) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                        android.R.layout.simple_list_item_1, savedLocationNames);
+                locationList.setAdapter(adapter);
+                locationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                        selectedLocation = savedLocationNames.get(position);
+                        locationSelected();
 
+                    }
+                });
+            }
         }
 
-        locationDatabase.close();
+    }
 
+
+    public List<String> readCsv(File file) {
+        List<String> entries = new ArrayList<>();
+        try {
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file.getAbsoluteFile()));
+            String row;
+            while ((row = bufferedReader.readLine()) != null) {
+                entries.add(row);
+            }
+            bufferedReader.close();
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return entries;
     }
 
 
@@ -72,31 +103,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    private void locationSelected(View view) {
+    private void locationSelected() {
         Intent intent = new Intent(this, ShowWeather.class);
         intent.putExtra("EXTRA_LOCATION_NAME", selectedLocation);
         startActivity(intent);
     }
 
-
-    private String getClickedLocation(int position, Cursor locationDBCursor) {
-        return locationDBCursor.getString(position);
-    }
-
-
-    private Cursor getAllRows(SQLiteDatabase db) {
-        Cursor allRows = db.rawQuery("select * from " + UserLocationsDBSchema.TABLE_NAME,
-                null);
-        return allRows;
-    }
-
-    //returns a List<String> of the location name strings used in the database
-    private List<String> getLocationNames(Cursor locationDBCursor) {
-        List<String> names = new ArrayList<>();
-        while(locationDBCursor.moveToNext()) {
-            names.add(locationDBCursor.getString(1));
-        }
-        return names;
-    }
 }

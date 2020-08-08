@@ -96,13 +96,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void testButtonClicked(View view) {
-        Intent intent = new Intent(this, ShowWeather.class);
-        intent.putExtra("EXTRA_LOCATION_NAME","Boston");
-        startActivity(intent);
-    }
-
-
     private void locationSelected() {
         Intent intent = new Intent(this, ShowWeather.class);
         intent.putExtra("EXTRA_LOCATION_NAME", selectedLocation);

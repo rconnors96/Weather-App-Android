@@ -71,7 +71,7 @@ public class AddLocation extends AppCompatActivity {
 
         try {
 
-            FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
+            FileWriter fileWriter = new FileWriter(file.getAbsoluteFile(), true);
             //IF THE FILE DOES NOT EXIST, WRITE THIS LOCATION TO IT
             if (!file.isFile()) {
 

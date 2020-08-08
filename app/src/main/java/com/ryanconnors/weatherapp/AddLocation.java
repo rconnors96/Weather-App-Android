@@ -3,10 +3,7 @@ package com.ryanconnors.weatherapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.gms.common.api.Status;
@@ -114,7 +111,7 @@ public class AddLocation extends AppCompatActivity {
 
 
     public void returnToMain() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MenuListActivity.class);
         startActivity(intent);
     }
 

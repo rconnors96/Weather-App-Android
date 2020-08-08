@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#32bea6"
     android:onClick="addLocationClicked"
-    tools:context=".MainActivity">
+    tools:context=".MenuListActivity">
 
     <ListView
         android:id="@+id/location_list"

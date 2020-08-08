@@ -3,35 +3,21 @@ package com.ryanconnors.weatherapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.snappydb.DB;
-import com.snappydb.DBFactory;
-import com.snappydb.SnappyDB;
-import com.snappydb.SnappydbException;
-
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MenuListActivity extends AppCompatActivity {
 
     //weatherAPI key :  fe965d9067db07a703d64d8902e536ad
 
@@ -41,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_menu_list);
         getSupportActionBar().hide();
 
         //assigning activity buttons/lists

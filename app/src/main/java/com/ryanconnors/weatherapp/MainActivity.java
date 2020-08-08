@@ -33,7 +33,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    //weatherAPI key : fe965d9067db07a703d64d8902e536ad
+    //weatherAPI key :  fe965d9067db07a703d64d8902e536ad
 
     private String selectedLocation;
 
